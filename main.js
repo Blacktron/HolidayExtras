@@ -20,9 +20,9 @@ $('#showAllUsers').on('click', function (e) {
 
     for (let i = 0; i < users.length; i++) {
         let userData = users[i];
-        let userDataRow = "<tr><td class='table-row-user-id'>" + userData.id + "</td><td>" + userData.email + "</td><td>" +
-            userData.firstName + "</td><td>" + userData.lastName + "</td><td>" + userData.created +
-            editBtn + deleteBtn + "</td></tr>";
+        let userDataRow = "<tr><td class='table-row-id'>" + userData.id + "</td><td class='table-row-email'>" + userData.email +
+            "</td><td class='table-row-first-name'>" + userData.firstName + "</td><td class='table-row-last-name'>" + userData.lastName +
+            "</td><td class='table-row-created'>" + userData.created + editBtn + deleteBtn + "</td></tr>";
 
         $('#allUsersData').append(userDataRow);
     }
@@ -30,8 +30,8 @@ $('#showAllUsers').on('click', function (e) {
 
 $('table').on('click', 'tr button.delete-button', function(e) {
     e.preventDefault();
-    let userID = $(this).closest('tr').find('.table-row-user-id').text();
-    //$(this).closest('tr').remove();
+    let userID = $(this).closest('tr').find('.table-row-id').text();
+    $(this).closest('tr').remove();
 
     deleteUser(userID);
 });
