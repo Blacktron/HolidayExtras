@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>HolidayExtras CRUD</title>
+        <script src="jquery-3.3.1.min.js"></script>
+    </head>
+    <body>
+        <div class="create-user">
+            <form id="addUser" method="post">
+                <input type="text" name="userID" id="userID" placeholder="User ID" required>
+                <input type="email" name="userEmail" id="userEmail" placeholder="Email" required>
+                <input type="text" name="givenName" id="givenName" placeholder="Given name" required>
+                <input type="text" name="familyName" id="familyName" placeholder="Family name" required>
+                <br><br>
+                <button type="submit" id="addUserBtn">Add User</button>
+            </form>
+        </div>
+
+        <div class="display-all-users">
+            <button type="submit" id="showAllUsers">Show All</button>
+            <div id="allUsers" style="display: none">
+                <table id="allUsersData" style="width:100%">
+                    <tr>
+                        <th>ID</th>
+                        <th>Email</th>
+                        <th>Given Name</th>
+                        <th>Family Name</th>
+                        <th>Date Created</th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <script src="main.js"></script>
+    </body>
+</html>
