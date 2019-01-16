@@ -8,12 +8,10 @@ $('#addUserBtn').on('click', function(e) {
     let lastName = $('#familyName').val();
     let created = new Date();
 
-    if (id === '' || email === '' || firstName === '' || lastName === '') {
-        alert('Please provide value in every field.');
-    } else {
-        createUser(id, email, firstName, lastName, created);
-        resetUserForm();
-    }
+    let isUserCreated = createUser(id, email, firstName, lastName, created);
+    isUserCreated ? alert('User created successfully!') : alert('User with the same ID already exists!');
+
+    resetUserForm();
 });
 
 $('#showAllUsers').on('click', function () {
@@ -71,7 +69,7 @@ $('table').on('click', 'tr button.edit-button', function() {
 
 /**
  * @function
- * @description Method which creates a user.
+ * @description         Creates a user.
  * @param id            The ID of the user.
  * @param email         The email of the user.
  * @param firstName     The first name.
@@ -79,18 +77,21 @@ $('table').on('click', 'tr button.edit-button', function() {
  * @param created       The creation date of the user.
  */
 function createUser(id, email, firstName, lastName, created) {
-    // Do not create a user if user with the same ID already exists.
-    let isUserExists = false;
-    for (let i = 0; i < users.length; i++) {
-        let user = users[i];
+    // Validate user data.
+    let isUserDataValid = validateUserData(id, email, firstName, lastName);
 
-        if (user.id === id) {
-            alert('User with the same ID already exists!');
-            isUserExists = true;
+    if (!isUserDataValid) {
+        throw new Error('Please provide value in every field.');
+    } else {
+        // Do not create a user if user with the same ID already exists.
+        for (let i = 0; i < users.length; i++) {
+            let user = users[i];
+
+            if (user.id === id) {
+                return false;
+            }
         }
-    }
 
-    if (!isUserExists) {
         let user = {
             id: id,
             email: email,
@@ -100,13 +101,13 @@ function createUser(id, email, firstName, lastName, created) {
         };
 
         users.push(user);
-        alert('User created successfully!');
+        return true;
     }
 }
 
 /**
  * @function
- * @description Method which deletes a user.
+ * @description     Deletes a user.
  * @param userID    The ID of the user which has to be deleted.
  */
 function deleteUser(userID) {
@@ -120,7 +121,7 @@ function deleteUser(userID) {
 
 /**
  * @function
- * @description Method which modifies the data of a user. Everything except the ID and the date created
+ * @description             Modifies the data of a user. Everything except the ID and the date created
  * can be modified.
  * @param userID            The ID of the user.
  * @param userEmail         The email of the user.
@@ -142,7 +143,7 @@ function editUser(userID, userEmail, userFirstName, userLastName) {
 
 /**
  * @function
- * @description Method which clears the data from the form.
+ * @description     Clears the data from the form.
  */
 function resetUserForm() {
     $('#addUser')[0].reset();
@@ -151,7 +152,7 @@ function resetUserForm() {
 
 /**
  * @function
- * @description Method which displays the user data in the table.
+ * @description     Displays the user data in the table.
  * @param users     The array which holds the users and the date related to them.
  */
 function displayResult(users) {
@@ -172,3 +173,31 @@ function displayResult(users) {
         userTable.append(userDataRow);
     }
 }
+
+/**
+ * @function
+ * @description         Validates if all data is provided
+ * @param id            The ID of the user.
+ * @param email         The email of the user.
+ * @param firstName     The first name.
+ * @param lastName      The last name.
+ * @returns {boolean}   True if all data is provided, false otherwise.
+ */
+function validateUserData (id, email, firstName, lastName) {
+    if (id === '' || email === '' || firstName === '' || lastName === '') {
+        return false;
+    }
+
+    return true;
+}
+
+/**
+ * @function
+ * @description     Unit tests user creation.
+ */
+function testCreateUser(userID, userEmail, userFirstName, userLastName) {
+    let created = new Date();
+    let isTestUserCreated = createUser(userID, userEmail, userFirstName, userLastName, created);
+    isTestUserCreated ? console.log('Success') : console.log('Fail');
+}
+testCreateUser('vbutanski', 'viktor.butanski@gmail.com', 'Viktor', 'Viktor', 'Butanski');
